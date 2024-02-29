@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+
+        input, button {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>JSON Generator</h1>
+
+    <label for="name">Name:</label>
+    <input type="text" id="name" placeholder="Enter name">
+
+    <br>
+
+    <label for="phone">Phone Number:</label>
+    <input type="text" id="phone" placeholder="Enter phone number">
+
+    <br>
+
+    <button onclick="generateJSON()">Generate JSON</button>
+
+    <script>
+        function generateRandomName() {
+            const names = ['John Doe', 'Jane Doe', 'Alice Smith', 'Bob Johnson'];
+            const randomIndex = Math.floor(Math.random() * names.length);
+            return names[randomIndex];
+        }
+
+        function generateRandomPhone() {
+            const randomNumber = Math.floor(Math.random() * 9000000000) + 1000000000;
+            return randomNumber.toString().replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
+        }
+
+        function generateJSON() {
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+
+            const randomName = generateRandomName();
+            const randomPhone = generateRandomPhone();
+
+            const data = {
+                inputName: name,
+                inputPhone: phone,
+                randomName: randomName,
+                randomPhone: randomPhone
+            };
+
+            const jsonData = JSON.stringify(data, null, 2);
+
+            // Create a Blob and a link to download the JSON file
+            const blob = new Blob([jsonData], { type: 'application/json' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'generated_data.json';
+            a.click();
+        }
+    </script>
+</body>
+</html>
